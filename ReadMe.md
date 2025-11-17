@@ -2,9 +2,10 @@
 
 > A blockchain-powered quiz game built on Celo with AI-generated questions and NFT staking rewards.
 
-![Celo](https://img.shields.io/badge/Celo-Alfajores-35d07f)
+![Celo](https://img.shields.io/badge/Celo-Sepolia-35d07f)
 ![License](https://img.shields.io/badge/license-ISC-blue)
 ![Solidity](https://img.shields.io/badge/Solidity-0.8.22-purple)
+![WalletConnect](https://img.shields.io/badge/WalletConnect-Integrated-blue)
 
 ## 📖 Overview
 
@@ -19,9 +20,10 @@ Quizonaire is a decentralized quiz game platform where players can:
 - **🧠 AI-Powered Quiz Generation**: Dynamic quiz questions generated using Google Gemini AI
 - **💰 Blockchain Rewards**: Smart contract-based reward system on Celo
 - **🎨 NFT Staking**: Stake your NFTs to earn additional rewards
-- **🔐 WalletConnect Integration**: Connect with any Web3 wallet
+- **🔐 WalletConnect Integration**: Seamlessly connect with any Web3 wallet using WalletConnect v3
 - **📱 Mobile-First Design**: Fully responsive interface for all devices
-- **⚡ Fast & Cheap**: Built on Celo for low transaction fees
+- **⚡ Fast & Cheap**: Built on Celo Sepolia testnet for low transaction fees
+- **✅ Deployed & Live**: Smart contracts deployed and verified on Celo Sepolia
 
 ## 🛠️ Tech Stack
 
@@ -41,6 +43,22 @@ Quizonaire is a decentralized quiz game platform where players can:
 
 ### AI
 - **Google Gemini AI** - Quiz question generation
+
+## 📝 Deployed Smart Contracts (Celo Sepolia Testnet)
+
+All contracts are deployed and live on Celo Sepolia testnet:
+
+| Contract | Address | Explorer |
+|----------|---------|----------|
+| **GameLifecycleNative** | `0x3B30c61e00E848e9cFc990687b743FD118E9C503` | [View on Explorer](https://sepolia.celoscan.io/address/0x3B30c61e00E848e9cFc990687b743FD118E9C503) |
+| **OptimizedQuizGame** | `0x122f95938706f3A973204b37543a7430A8F9121c` | [View on Explorer](https://sepolia.celoscan.io/address/0x122f95938706f3A973204b37543a7430A8F9121c) |
+| **NFTStaking** | `0x5E1a8f5E7F480B8976129d5c79C5990daeEC6252` | [View on Explorer](https://sepolia.celoscan.io/address/0x5E1a8f5E7F480B8976129d5c79C5990daeEC6252) |
+
+**Network Details:**
+- Network Name: Celo Sepolia Testnet
+- Chain ID: 11142220
+- RPC URL: `https://forno.celo-sepolia.celo-testnet.org`
+- Block Explorer: https://sepolia.celoscan.io/
 
 ## 📋 Prerequisites
 

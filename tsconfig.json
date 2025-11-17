@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+    },
+    "moduleResolution": "NodeNext",
+    "resolveJsonModule": true,
+  },
+  "include": [
+    "src",
+    "vite-env.d.ts",
+    "scripts/deploy.js"
+  ]
+}

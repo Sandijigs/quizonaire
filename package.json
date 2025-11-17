@@ -1,0 +1,61 @@
+{
+  "name": "quizonaire",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network alfajores",
+    "deploy:quiz": "hardhat run scripts/deploy_quiz.js --network alfajores",
+    "deploy:nft_staking": "hardhat run scripts/deploy_nft_staking.js --network alfajores",
+    "deploy:all": "npm run compile && npm run deploy && npm run deploy:quiz && npm run deploy:nft_staking",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HisokaWizard/somnia_relay_viewer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HisokaWizard/somnia_relay_viewer/issues"
+  },
+  "homepage": "https://github.com/HisokaWizard/somnia_relay_viewer#readme",
+  "description": "",
+  "dependencies": {
+    "@google/genai": "^1.9.0",
+    "@openzeppelin/contracts": "^5.3.0",
+    "@tanstack/react-query": "^5.0.0",
+    "@web3modal/wagmi": "^3.5.0",
+    "axios": "1.5.1",
+    "js-sha3": "^0.9.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router": "7.5.3",
+    "react-router-dom": "7.5.3",
+    "uuid": "^11.1.0",
+    "viem": "^2.0.0",
+    "wagmi": "^2.0.0",
+    "web3": "4.16.0"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@types/react": "18.2",
+    "@types/react-dom": "18.2",
+    "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "8.33.1",
+    "@typescript-eslint/parser": "8.33.1",
+    "@vitejs/plugin-react": "4.0.4",
+    "dotenv": "16.5.0",
+    "eslint": "9.28.0",
+    "eslint-config-prettier": "10.1.5",
+    "eslint-plugin-react": "7.37.5",
+    "ethers": "5.8.0",
+    "hardhat": "2.24.3",
+    "prettier": "3.5.3",
+    "typescript": "5.8.3",
+    "vite": "4.4.9"
+  }
+}

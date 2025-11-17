@@ -7,9 +7,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "compile": "hardhat compile",
-    "deploy": "hardhat run scripts/deploy.js --network alfajores",
-    "deploy:quiz": "hardhat run scripts/deploy_quiz.js --network alfajores",
-    "deploy:nft_staking": "hardhat run scripts/deploy_nft_staking.js --network alfajores",
+    "deploy": "hardhat run scripts/deploy.mjs --network celo-sepolia",
+    "deploy:quiz": "hardhat run scripts/deploy_quiz.mjs --network celo-sepolia",
+    "deploy:nft_staking": "hardhat run scripts/deploy_nft_staking.mjs --network celo-sepolia",
     "deploy:all": "npm run compile && npm run deploy && npm run deploy:quiz && npm run deploy:nft_staking",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,8 +36,8 @@
     "react-router": "7.5.3",
     "react-router-dom": "7.5.3",
     "uuid": "^11.1.0",
-    "viem": "^2.0.0",
-    "wagmi": "^2.0.0",
+    "viem": "^1.21.4",
+    "wagmi": "^1.4.13",
     "web3": "4.16.0"
   },
   "devDependencies": {

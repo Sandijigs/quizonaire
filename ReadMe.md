@@ -37,7 +37,7 @@ Quizonaire is a decentralized quiz game platform where players can:
 - **Solidity 0.8.22** - Smart contracts
 - **Hardhat** - Development environment
 - **OpenZeppelin** - Smart contract libraries
-- **Celo Alfajores** - Testnet deployment
+- **Celo Sepolia** - Testnet deployment
 
 ### AI
 - **Google Gemini AI** - Quiz question generation
@@ -48,7 +48,7 @@ Before you begin, ensure you have:
 - [Node.js](https://nodejs.org/) (v16 or higher)
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 - [MetaMask](https://metamask.io/) or another Web3 wallet
-- Celo Alfajores testnet CELO tokens ([Get from faucet](https://faucet.celo.org/alfajores))
+- Celo Sepolia testnet CELO tokens ([Get from faucet](https://faucet.celo.org/alfajores))
 
 ## 🚀 Getting Started
 
@@ -97,7 +97,7 @@ VITE_GAME_LIFECYCLE_CONTRACT_ADDRESS=
 npm run compile
 ```
 
-### 5. Deploy Smart Contracts to Celo Alfajores
+### 5. Deploy Smart Contracts to Celo Sepolia
 
 Deploy all contracts:
 ```bash
@@ -174,27 +174,27 @@ vercel --prod
 Manages quiz gameplay and rewards.
 
 - **Location**: `contracts/OptimizedQuizGame.sol`
-- **Network**: Celo Alfajores Testnet
+- **Network**: Celo Sepolia Testnet
 - **Features**: Quiz state management, reward distribution
 
 ### NFTStaking
 Allows users to stake NFTs and earn rewards.
 
 - **Location**: `contracts/NFTStaking.sol`
-- **Network**: Celo Alfajores Testnet
+- **Network**: Celo Sepolia Testnet
 - **Features**: NFT staking, reward calculation
 
 ### GameLifecycleNative
 Manages game lifecycle and native token rewards.
 
 - **Location**: `contracts/GameLifecycle.sol`
-- **Network**: Celo Alfajores Testnet
+- **Network**: Celo Sepolia Testnet
 - **Features**: Game state, native CELO rewards
 
 ## 🎮 How to Play
 
 1. **Connect Wallet**: Click "Connect Wallet" and select your Web3 wallet
-2. **Switch to Celo**: The app will prompt you to switch to Celo Alfajores testnet
+2. **Switch to Celo**: The app will prompt you to switch to Celo Sepolia testnet
 3. **Choose Game Mode**:
    - **Play Quiz**: Pre-defined quiz questions
    - **Infinite Quiz**: AI-generated questions using Google Gemini

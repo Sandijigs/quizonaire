@@ -9,10 +9,10 @@ declare global {
   }
 }
 
-const CHAIN_ID_HEX = '0xAEF3'; // 44787 in decimal
+const CHAIN_ID_HEX = '0xAEF3'; // 44787 in decimal (Celo Sepolia)
 const CELO_PARAMS = {
   chainId: CHAIN_ID_HEX,
-  chainName: 'Celo Alfajores Testnet',
+  chainName: 'Celo Sepolia Testnet',
   nativeCurrency: { name: 'CELO', symbol: 'CELO', decimals: 18 },
   rpcUrls: ['https://alfajores-forno.celo-testnet.org'],
   blockExplorerUrls: ['https://alfajores.celoscan.io/'],
@@ -77,7 +77,7 @@ export const useWeb3State = (contractAddress: string, abi: any) => {
     });
 
     if (currentChainId === CHAIN_ID_HEX) {
-      log('✅ Already on the correct network: Celo Alfajores Testnet');
+      log('✅ Already on the correct network: Celo Sepolia Testnet');
       return;
     }
 
@@ -87,7 +87,7 @@ export const useWeb3State = (contractAddress: string, abi: any) => {
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: CHAIN_ID_HEX }],
       });
-      log('✅ Switched to Celo Alfajores Testnet');
+      log('✅ Switched to Celo Sepolia Testnet');
     } catch (err: any) {
       if (err.code === 4902) {
         log('🛠️ Celo network not found, adding it...');

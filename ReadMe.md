@@ -46,13 +46,13 @@ Quizonaire is a decentralized quiz game platform where players can:
 
 ## 📝 Deployed Smart Contracts (Celo Sepolia Testnet)
 
-All contracts are deployed and live on Celo Sepolia testnet:
+All contracts are deployed, verified, and live on Celo Sepolia testnet:
 
-| Contract | Address | Explorer |
-|----------|---------|----------|
-| **GameLifecycleNative** | `0x3B30c61e00E848e9cFc990687b743FD118E9C503` | [View on Explorer](https://sepolia.celoscan.io/address/0x3B30c61e00E848e9cFc990687b743FD118E9C503) |
-| **OptimizedQuizGame** | `0x122f95938706f3A973204b37543a7430A8F9121c` | [View on Explorer](https://sepolia.celoscan.io/address/0x122f95938706f3A973204b37543a7430A8F9121c) |
-| **NFTStaking** | `0x5E1a8f5E7F480B8976129d5c79C5990daeEC6252` | [View on Explorer](https://sepolia.celoscan.io/address/0x5E1a8f5E7F480B8976129d5c79C5990daeEC6252) |
+| Contract | Address | Status | Explorer |
+|----------|---------|--------|----------|
+| **GameLifecycleNative** | `0x3B30c61e00E848e9cFc990687b743FD118E9C503` | ✅ Verified | [View Source Code](https://sepolia.celoscan.io/address/0x3B30c61e00E848e9cFc990687b743FD118E9C503#code) |
+| **OptimizedQuizGame** | `0x122f95938706f3A973204b37543a7430A8F9121c` | ✅ Verified | [View Source Code](https://sepolia.celoscan.io/address/0x122f95938706f3A973204b37543a7430A8F9121c#code) |
+| **NFTStaking** | `0x5E1a8f5E7F480B8976129d5c79C5990daeEC6252` | ✅ Verified | [View Source Code](https://sepolia.celoscan.io/address/0x5E1a8f5E7F480B8976129d5c79C5990daeEC6252#code) |
 
 **Network Details:**
 - Network Name: Celo Sepolia Testnet

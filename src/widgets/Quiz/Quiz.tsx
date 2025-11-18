@@ -33,7 +33,7 @@ type QuestionLifecycleState =
   | 'AWAITING_TX_CONFIRMATION'
   | 'GAME_OVER';
 
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS ?? '';
+const CONTRACT_ADDRESS = import.meta.env.VITE_GAME_LIFECYCLE_CONTRACT_ADDRESS ?? '';
 
 export const Quiz = () => {
   const [questionState, setQuestionState] =

@@ -43,7 +43,7 @@ type GameData = {
   fullCost: number;
 };
 
-const CONTRACT_ADDRESS = process.env.CONTRACT_QUIZ_ADDRESS ?? '';
+const CONTRACT_ADDRESS = import.meta.env.VITE_QUIZ_CONTRACT_ADDRESS ?? '';
 
 type GameState =
   | 'IDLE'
@@ -286,7 +286,7 @@ export const GameWidget = () => {
     }
     log('💰 Owner take all rewards...');
     try {
-      const address = process.env.CONTRACT_QUIZ_ADDRESS ?? '';
+      const address = import.meta.env.VITE_QUIZ_CONTRACT_ADDRESS ?? '';
       const balance = await getContractBalance(address);
       const needToWithdraw = ethers.utils.parseEther(balance);
       const tx = await contract.withdraw(needToWithdraw);

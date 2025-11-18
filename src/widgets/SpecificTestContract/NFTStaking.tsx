@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import nftStakingAbi from '../../../artifacts/contracts/NFTStaking.sol/NFTStaking.json';
 import { useWeb3State } from '@/shared';
 
-const CONTRACT_NFT_STAKING = process.env.CONTRACT_NFT_STAKING ?? '';
+const CONTRACT_NFT_STAKING = import.meta.env.VITE_NFT_STAKING_CONTRACT_ADDRESS ?? '';
 const REWARD_TOKEN_DECIMALS = 18;
 
 export const NFTStaking = () => {

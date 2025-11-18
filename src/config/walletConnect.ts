@@ -1,8 +1,32 @@
-import { createWeb3Modal } from '@web3modal/wagmi/react';
-import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
-import { WagmiProvider } from 'wagmi';
-import { celoAlfajores, celo } from 'wagmi/chains';
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react';
+import { WagmiConfig } from 'wagmi';
+import { celo } from 'wagmi/chains';
+import type { Chain } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Define Celo Sepolia Testnet
+const celoSepolia: Chain = {
+  id: 44787,
+  name: 'Celo Sepolia Testnet',
+  network: 'celo-sepolia',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'CELO',
+    symbol: 'CELO',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://alfajores-forno.celo-testnet.org'],
+    },
+    public: {
+      http: ['https://alfajores-forno.celo-testnet.org'],
+    },
+  },
+  blockExplorers: {
+    default: { name: 'CeloScan', url: 'https://alfajores.celoscan.io' },
+  },
+  testnet: true,
+};
 
 // Get projectId from environment variable
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '';
@@ -19,8 +43,8 @@ const metadata = {
   icons: ['https://quizonaire.vercel.app/icon.png']
 };
 
-// Configure chains for Celo
-const chains = [celoAlfajores, celo] as const;
+// Configure chains for Celo (Sepolia Testnet and Mainnet)
+const chains = [celoSepolia, celo] as const;
 
 // Create wagmi config
 export const config = defaultWagmiConfig({
@@ -37,7 +61,6 @@ createWeb3Modal({
   wagmiConfig: config,
   projectId,
   enableAnalytics: true,
-  enableOnramp: true,
 });
 
-export { WagmiProvider, QueryClientProvider };
+export { WagmiConfig as WagmiProvider, QueryClientProvider };

@@ -3,8 +3,13 @@ import { Quiz } from '@/widgets/Quiz/Quiz';
 import { GameWidget } from '@/widgets/QuizGenerator';
 import { NFTStaking } from '@/widgets/SpecificTestContract/NFTStaking';
 import { WagmiProvider, QueryClientProvider, queryClient, config } from '@/config/walletConnect';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
 
 const HomePage = () => {
+  const { address, isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
+  const { disconnect } = useDisconnect();
+
   return (
     <div style={{
       width: '100vw',
@@ -19,6 +24,28 @@ const HomePage = () => {
     }}>
       <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Welcome to Quizonaire</h1>
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Blockchain Quiz Game on Celo</p>
+
+      {isConnected ? (
+        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+          <p style={{ marginBottom: '0.5rem' }}>Connected: {address?.slice(0, 6)}...{address?.slice(-4)}</p>
+          <button onClick={() => disconnect()} style={{
+            padding: '10px 20px',
+            backgroundColor: '#e74c3c',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}>
+            Disconnect Wallet
+          </button>
+        </div>
+      ) : (
+        <div style={{ marginBottom: '2rem' }}>
+          <w3m-button />
+        </div>
+      )}
+
       <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
         <a href="/quiz" style={{
           padding: '15px 30px',

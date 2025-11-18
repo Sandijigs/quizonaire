@@ -16,15 +16,13 @@ export default defineConfig(({ command, mode }) => {
         },
         output: {
           manualChunks: {
-            vendor_three: ['three'],
             vendor_react: [
               'react',
               'react-dom',
               'react-router',
               'react-router-dom',
             ],
-            vendor_3d: ['@react-three/fiber', '@react-three/drei'],
-            vendor_web3: ['axios', 'web3'],
+            vendor_web3: ['ethers', 'wagmi', 'viem'],
           },
         },
       },

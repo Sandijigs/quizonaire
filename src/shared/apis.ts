@@ -21,24 +21,49 @@ export const requestToOpenRouter = async (
   context: string,
   otherModel?: string
 ): Promise<string> => {
+  // Try Gemini first if API key is available
+  const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  if (geminiKey) {
+    console.log('Using Google Gemini API for quiz generation...');
+    try {
+      const result = await requestToGemini(context);
+      if (result) {
+        console.log('Gemini request successful');
+        return result;
+      }
+    } catch (error: any) {
+      console.warn('Gemini API failed, trying OpenRouter...', error.message);
+    }
+  }
+
+  // Fallback to OpenRouter
   const listOfModels = [
     'qwen/qwen3-32b',
     'nousresearch/hermes-4-70b',
     'google/gemini-2.5-pro',
   ];
 
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('No API key configured. Please add VITE_GEMINI_API_KEY or VITE_OPENROUTER_API_KEY to your .env file');
+  }
+
   try {
     const url = 'https://openrouter.ai/api/v1/chat/completions';
+    const model = otherModel ?? 'qwen/qwen3-coder:free';
+
+    console.log(`Attempting OpenRouter request with model: ${model}, attempt: ${breakCycle + 1}`);
 
     const data = JSON.stringify({
-      model: otherModel ?? 'qwen/qwen3-coder:free',
+      model: model,
       messages: [{ role: 'user', content: context }],
       stream: false,
     });
 
     const response = await axios.post(url, data, {
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         'HTTP-Referer': 'https://quizonaire.vercel.app',
         'X-Title': 'Quizonaire',
         'Content-Type': 'application/json',
@@ -46,18 +71,29 @@ export const requestToOpenRouter = async (
     });
 
     const content: string = response.data.choices?.[0]?.message?.content;
-    breakCycle = 0;
 
+    if (!content) {
+      console.error('OpenRouter response:', response.data);
+      throw new Error('OpenRouter returned empty content');
+    }
+
+    breakCycle = 0;
+    console.log('OpenRouter request successful');
     return content;
-  } catch (error) {
-    if (breakCycle >= 5) {
+  } catch (error: any) {
+    console.error(`OpenRouter error (attempt ${breakCycle + 1}):`, error.response?.data || error.message);
+
+    if (breakCycle >= 4) {
+      breakCycle = 0;
       throw new Error(
-        'Sorry, something wrong with LLM service! It will fix as soon as possible!'
+        `Failed after 5 attempts. Last error: ${error.response?.data?.error?.message || error.message}`
       );
     }
+
     breakCycle++;
     const modelIndex = breakCycle - 1;
-    console.error(error);
+    console.log(`Retrying with model: ${listOfModels[modelIndex < 0 || modelIndex > 2 ? 0 : modelIndex]}`);
+
     return await requestToOpenRouter(
       context,
       listOfModels[modelIndex < 0 || modelIndex > 2 ? 0 : modelIndex]

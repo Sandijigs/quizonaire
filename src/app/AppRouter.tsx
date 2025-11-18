@@ -4,11 +4,24 @@ import { GameWidget } from '@/widgets/QuizGenerator';
 import { NFTStaking } from '@/widgets/SpecificTestContract/NFTStaking';
 import { WagmiProvider, QueryClientProvider, queryClient, config } from '@/config/walletConnect';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { useEffect } from 'react';
+import { useMiniPay } from '@/shared/useMiniPay';
 
 const HomePage = () => {
   const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
+  const { isMiniPay, isLoading } = useMiniPay();
+
+  // Auto-connect when in MiniPay
+  useEffect(() => {
+    if (isMiniPay && !isConnected && connectors.length > 0) {
+      const injectedConnector = connectors.find(c => c.id === 'injected');
+      if (injectedConnector) {
+        connect({ connector: injectedConnector });
+      }
+    }
+  }, [isMiniPay, isConnected, connect, connectors]);
 
   return (
     <div style={{
@@ -27,24 +40,29 @@ const HomePage = () => {
 
       {isConnected ? (
         <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
-          <p style={{ marginBottom: '0.5rem' }}>Connected: {address?.slice(0, 6)}...{address?.slice(-4)}</p>
-          <button onClick={() => disconnect()} style={{
-            padding: '10px 20px',
-            backgroundColor: '#e74c3c',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}>
-            Disconnect Wallet
-          </button>
+          <p style={{ marginBottom: '0.5rem' }}>
+            {isMiniPay && <span style={{ color: '#35d07f', marginRight: '8px' }}>📱 MiniPay</span>}
+            Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+          </p>
+          {!isMiniPay && (
+            <button onClick={() => disconnect()} style={{
+              padding: '10px 20px',
+              backgroundColor: '#e74c3c',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}>
+              Disconnect Wallet
+            </button>
+          )}
         </div>
-      ) : (
+      ) : !isMiniPay && !isLoading ? (
         <div style={{ marginBottom: '2rem' }}>
           <w3m-button />
         </div>
-      )}
+      ) : null}
 
       <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
         <a href="/quiz" style={{

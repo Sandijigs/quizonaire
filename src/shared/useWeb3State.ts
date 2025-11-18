@@ -14,12 +14,8 @@ const CELO_PARAMS = {
   chainId: CHAIN_ID_HEX,
   chainName: 'Celo Sepolia Testnet',
   nativeCurrency: { name: 'CELO', symbol: 'CELO', decimals: 18 },
-  rpcUrls: [
-    'https://forno.celo-sepolia.celo-testnet.org',
-    'https://celo-sepolia-rpc.publicnode.com',
-    'https://1rpc.io/celo/sepolia'
-  ],
-  blockExplorerUrls: ['https://sepolia.celoscan.io/'],
+  rpcUrls: ['https://rpc.ankr.com/celo_sepolia'],
+  blockExplorerUrls: ['https://celo-sepolia.blockscout.com'],
 };
 
 export const getContractBalance = async (contractAddress: string) => {

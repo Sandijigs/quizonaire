@@ -16,22 +16,14 @@ const celoSepolia: Chain = {
   },
   rpcUrls: {
     default: {
-      http: [
-        'https://forno.celo-sepolia.celo-testnet.org',
-        'https://celo-sepolia-rpc.publicnode.com',
-        'https://1rpc.io/celo/sepolia'
-      ],
+      http: ['https://rpc.ankr.com/celo_sepolia'],
     },
     public: {
-      http: [
-        'https://forno.celo-sepolia.celo-testnet.org',
-        'https://celo-sepolia-rpc.publicnode.com',
-        'https://1rpc.io/celo/sepolia'
-      ],
+      http: ['https://rpc.ankr.com/celo_sepolia'],
     },
   },
   blockExplorers: {
-    default: { name: 'CeloScan', url: 'https://sepolia.celoscan.io' },
+    default: { name: 'Blockscout', url: 'https://celo-sepolia.blockscout.com' },
   },
   testnet: true,
 };

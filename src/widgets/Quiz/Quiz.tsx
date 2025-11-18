@@ -97,19 +97,20 @@ export const Quiz = () => {
       log(
         `🎲 Question ${currentQuestionIndex + 1}/${quizPack.length}. Fixing stake...`
       );
-      log(`💰 Your stake: ${stakeString} STT. Sign transaction.`);
+      log(`💰 Your stake: ${stakeString} CELO. Sign transaction.`);
 
       const gameId = uuidv4();
+      const gameIdBytes = ethers.utils.id(gameId);
       const dataHash = ethers.utils.solidityKeccak256(
         ['bytes32', 'string', 'string'],
         [
-          ethers.utils.id(gameId),
+          gameIdBytes,
           questionData.question,
           questionData.correctAnswer,
         ]
       );
 
-      const tx = await contract.startGame(ethers.utils.id(gameId), dataHash, {
+      const tx = await contract.startGame(gameIdBytes, dataHash, {
         value: stakeAmount,
       });
       await tx.wait();
@@ -124,7 +125,10 @@ export const Quiz = () => {
         `✅ Game ${gameId.slice(0, 8)}... is going on. You have ${gameDuration} seconds.`
       );
     } catch (error: any) {
-      log(`❗ Error on the question begin: ${error.message}`);
+      console.error('Full error details:', error);
+      console.error('Error reason:', error.reason);
+      console.error('Error data:', error.data);
+      log(`❗ Error on the question begin: ${error.reason || error.message}`);
       setQuestionState('QUIZ_READY');
     }
   }, [contract, currentQuestionIndex, log, quizPack]);
@@ -143,8 +147,9 @@ export const Quiz = () => {
         const stakeString = getStakeAmount(currentGame.difficulty);
         const stakeAmount = ethers.utils.parseEther(stakeString);
 
+        const gameIdBytes = ethers.utils.id(currentGame.gameId);
         const tx = await contract.endGame(
-          ethers.utils.id(currentGame.gameId),
+          gameIdBytes,
           currentGame.question,
           currentGame.correctAnswer,
           playerWasCorrect
@@ -153,9 +158,9 @@ export const Quiz = () => {
 
         if (playerWasCorrect) {
           const rewardString = ethers.utils.formatEther(stakeAmount.mul(2));
-          log(`⚔️ Correct! You won ${rewardString} STT.`);
+          log(`⚔️ Correct! You won ${rewardString} CELO.`);
         } else {
-          log(`🌑 Sorry! It is not correct(( You lose ${stakeString} STT.`);
+          log(`🌑 Sorry! It is not correct(( You lose ${stakeString} CELO.`);
         }
 
         setCurrentGame(null);

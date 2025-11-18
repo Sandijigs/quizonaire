@@ -149,7 +149,7 @@ export const GameWidget = () => {
     try {
       log(`Your Game ID: ${quizPack.id}...`);
       log(
-        `Total stake: ${quizPack.fullCost.toFixed(6)} STT. Please confirm transaction.`
+        `Total stake: ${quizPack.fullCost.toFixed(6)} CELO. Please confirm transaction.`
       );
 
       const fullCostWei = ethers.utils.parseEther(quizPack.fullCost.toString());
@@ -242,7 +242,7 @@ export const GameWidget = () => {
       });
       setAnswersForReview(quizAnswerReiew);
       const finalPrizeWei = ethers.utils.parseEther(finalPrize.toString());
-      log(`You will get your final result: ${finalPrize.toFixed(6)} STT`);
+      log(`You will get your final result: ${finalPrize.toFixed(6)} CELO`);
       const tx = await contract.endGame(
         ethers.BigNumber.from(quizPack.id),
         finalPrizeWei
@@ -340,7 +340,7 @@ export const GameWidget = () => {
                   onClick={() => setBasePrice(option.value)}
                 >
                   <div className="price-label">{option.label}</div>
-                  <div className="price-value">{option.value} STT</div>
+                  <div className="price-value">{option.value} CELO</div>
                 </button>
               ))}
             </div>
@@ -482,7 +482,7 @@ export const GameWidget = () => {
             </div>
           ) : null}
           <GameRules
-            stake={quizPack?.fullCost ? `${quizPack.fullCost} STT` : null}
+            stake={quizPack?.fullCost ? `${quizPack.fullCost} CELO` : null}
           />
           <h3 className="font-fantasy">Scroll of Events</h3>
           <div className="log-entries-container">

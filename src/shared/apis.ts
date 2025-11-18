@@ -65,24 +65,31 @@ export const requestToOpenRouter = async (
   }
 };
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY,
-});
+let ai: GoogleGenAI | null = null;
+
+const getGeminiClient = () => {
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  if (!apiKey) {
+    return null;
+  }
+  if (!ai) {
+    ai = new GoogleGenAI({ apiKey });
+  }
+  return ai;
+};
 
 export const requestToGemini = async (
   context: string
 ): Promise<string | undefined> => {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY;
+  const geminiClient = getGeminiClient();
 
-  if (!apiKey) {
-    console.error(
-      'API ключ для Google Gemini не найден в переменных окружения.'
-    );
+  if (!geminiClient) {
+    console.warn('Google Gemini API key not configured. Skipping Gemini request.');
     return;
   }
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await geminiClient.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: [
         {
@@ -94,7 +101,7 @@ export const requestToGemini = async (
 
     return response.text;
   } catch (error) {
-    console.error('Gemeny model answer with error:', error);
+    console.error('Gemini model answered with error:', error);
   }
 };
 

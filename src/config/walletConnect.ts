@@ -4,9 +4,9 @@ import { celo } from 'wagmi/chains';
 import type { Chain } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-// Define Celo Sepolia Testnet
+// Define Celo Sepolia Testnet (Chain ID: 11142220)
 const celoSepolia: Chain = {
-  id: 44787,
+  id: 11142220,
   name: 'Celo Sepolia Testnet',
   network: 'celo-sepolia',
   nativeCurrency: {
@@ -16,14 +16,14 @@ const celoSepolia: Chain = {
   },
   rpcUrls: {
     default: {
-      http: ['https://alfajores-forno.celo-testnet.org'],
+      http: ['https://forno.celo-sepolia.celo-testnet.org'],
     },
     public: {
-      http: ['https://alfajores-forno.celo-testnet.org'],
+      http: ['https://forno.celo-sepolia.celo-testnet.org'],
     },
   },
   blockExplorers: {
-    default: { name: 'CeloScan', url: 'https://alfajores.celoscan.io' },
+    default: { name: 'CeloScan', url: 'https://sepolia.celoscan.io' },
   },
   testnet: true,
 };

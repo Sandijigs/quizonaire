@@ -9,13 +9,13 @@ declare global {
   }
 }
 
-const CHAIN_ID_HEX = '0xAEF3'; // 44787 in decimal (Celo Sepolia)
+const CHAIN_ID_HEX = '0xAA0CA4'; // 11142220 in decimal (Celo Sepolia Testnet)
 const CELO_PARAMS = {
   chainId: CHAIN_ID_HEX,
   chainName: 'Celo Sepolia Testnet',
   nativeCurrency: { name: 'CELO', symbol: 'CELO', decimals: 18 },
-  rpcUrls: ['https://alfajores-forno.celo-testnet.org'],
-  blockExplorerUrls: ['https://alfajores.celoscan.io/'],
+  rpcUrls: ['https://forno.celo-sepolia.celo-testnet.org'],
+  blockExplorerUrls: ['https://sepolia.celoscan.io/'],
 };
 
 export const getContractBalance = async (contractAddress: string) => {

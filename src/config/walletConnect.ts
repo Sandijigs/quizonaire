@@ -16,10 +16,18 @@ const celoSepolia: Chain = {
   },
   rpcUrls: {
     default: {
-      http: ['https://forno.celo-sepolia.celo-testnet.org'],
+      http: [
+        'https://forno.celo-sepolia.celo-testnet.org',
+        'https://celo-sepolia-rpc.publicnode.com',
+        'https://1rpc.io/celo/sepolia'
+      ],
     },
     public: {
-      http: ['https://forno.celo-sepolia.celo-testnet.org'],
+      http: [
+        'https://forno.celo-sepolia.celo-testnet.org',
+        'https://celo-sepolia-rpc.publicnode.com',
+        'https://1rpc.io/celo/sepolia'
+      ],
     },
   },
   blockExplorers: {

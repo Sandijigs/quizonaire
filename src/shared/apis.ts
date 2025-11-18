@@ -38,9 +38,9 @@ export const requestToOpenRouter = async (
 
     const response = await axios.post(url, data, {
       headers: {
-        Authorization: `Bearer ${process.env.OPEN_ROUTER_API_KEY}`,
-        'HTTP-Referer': 'https://somniapresentor.info/',
-        'X-Title': 'Somnia Presentor',
+        Authorization: `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+        'HTTP-Referer': 'https://quizonaire.vercel.app',
+        'X-Title': 'Quizonaire',
         'Content-Type': 'application/json',
       },
     });

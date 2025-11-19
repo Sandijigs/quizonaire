@@ -94,6 +94,18 @@ export const Quiz = () => {
     const stakeAmount = ethers.utils.parseEther(stakeString);
 
     try {
+      // Verify network before transaction
+      const network = await contract.provider.getNetwork();
+      if (network.chainId !== 11142220) {
+        log(`❗ Wrong network detected. Expected Celo Sepolia (11142220), got ${network.chainId}`);
+        // Try to switch network
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0xAA044C' }], // Correct hex for 11142220
+        });
+        // Wait for network switch
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
       log(
         `🎲 Question ${currentQuestionIndex + 1}/${quizPack.length}. Fixing stake...`
       );
@@ -109,10 +121,71 @@ export const Quiz = () => {
           questionData.correctAnswer,
         ]
       );
-
-      const tx = await contract.startGame(gameIdBytes, dataHash, {
-        value: stakeAmount,
+      
+      // Debug logging
+      console.log('Transaction Debug Info:', {
+        gameId,
+        gameIdBytes,
+        dataHash,
+        question: questionData.question,
+        answer: questionData.correctAnswer,
+        stakeAmount: ethers.utils.formatEther(stakeAmount),
+        contractAddress: contract.address,
+        userAddress: account,
       });
+
+      // Skip gas estimation and use a safe default for Celo
+      const gasLimit = ethers.BigNumber.from('300000');
+      
+      // Get current gas price from provider and add buffer
+      let gasPrice;
+      try {
+        const currentGasPrice = await contract.provider.getGasPrice();
+        // Add 20% buffer to current gas price
+        gasPrice = currentGasPrice.mul(120).div(100);
+        log(`⛽ Gas: Limit=${gasLimit.toString()}, Price=${ethers.utils.formatUnits(gasPrice, 'gwei')} gwei`);
+      } catch {
+        // Fallback to safe default (30 gwei for Celo)
+        gasPrice = ethers.utils.parseUnits('30', 'gwei');
+        log(`⛽ Using default gas: Limit=${gasLimit.toString()}, Price=30 gwei`);
+      }
+      
+      // Retry logic for JSON-RPC errors
+      let tx;
+      let retries = 0;
+      const maxRetries = 2;
+      
+      while (retries <= maxRetries) {
+        try {
+          tx = await contract.startGame(gameIdBytes, dataHash, {
+            value: stakeAmount,
+            gasLimit: gasLimit,
+            gasPrice: gasPrice,
+          });
+          break; // Success, exit loop
+        } catch (err: any) {
+          if (err.code === -32603 && retries < maxRetries) {
+            retries++;
+            log(`⚠️ JSON-RPC error, retrying (${retries}/${maxRetries})...`);
+            // Wait a bit before retry
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Refresh gas price
+            try {
+              const currentGasPrice = await contract.provider.getGasPrice();
+              gasPrice = currentGasPrice.mul(130).div(100); // Increase buffer
+            } catch {
+              gasPrice = ethers.utils.parseUnits('35', 'gwei'); // Higher fallback
+            }
+          } else {
+            throw err; // Re-throw if not JSON-RPC error or max retries reached
+          }
+        }
+      }
+      
+      if (!tx) {
+        throw new Error('Failed to send transaction after retries');
+      }
+      
       await tx.wait();
 
       const newGameData: GameData = { ...questionData, gameId, dataHash };
@@ -126,9 +199,23 @@ export const Quiz = () => {
       );
     } catch (error: any) {
       console.error('Full error details:', error);
+      console.error('Error code:', error.code);
       console.error('Error reason:', error.reason);
       console.error('Error data:', error.data);
-      log(`❗ Error on the question begin: ${error.reason || error.message}`);
+      
+      // More detailed error messages
+      let errorMessage = 'Unknown error';
+      if (error.code === 4001) {
+        errorMessage = 'Transaction rejected by user';
+      } else if (error.code === -32603) {
+        errorMessage = 'Internal JSON-RPC error. Please check your wallet network settings';
+      } else if (error.reason) {
+        errorMessage = error.reason;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      log(`❗ Error on the question begin: ${errorMessage}`);
       setQuestionState('QUIZ_READY');
     }
   }, [contract, currentQuestionIndex, log, quizPack]);
@@ -148,11 +235,23 @@ export const Quiz = () => {
         const stakeAmount = ethers.utils.parseEther(stakeString);
 
         const gameIdBytes = ethers.utils.id(currentGame.gameId);
+        
+        // Use fixed gas limit and dynamic gas price for Celo
+        const gasLimit = ethers.BigNumber.from('400000');
+        let gasPrice;
+        try {
+          const currentGasPrice = await contract.provider.getGasPrice();
+          gasPrice = currentGasPrice.mul(120).div(100); // Add 20% buffer
+        } catch {
+          gasPrice = ethers.utils.parseUnits('30', 'gwei'); // Safe default
+        }
+        
         const tx = await contract.endGame(
           gameIdBytes,
           currentGame.question,
           currentGame.correctAnswer,
-          playerWasCorrect
+          playerWasCorrect,
+          { gasLimit, gasPrice }
         );
         await tx.wait();
 
@@ -193,9 +292,21 @@ export const Quiz = () => {
     }
     log('💰 Owner take all rewards...');
     try {
-      const tx = await contract.withdrawStakes(account);
+      // Get dynamic gas price for withdrawal
+      let gasPrice;
+      try {
+        const currentGasPrice = await contract.provider.getGasPrice();
+        gasPrice = currentGasPrice.mul(120).div(100);
+      } catch {
+        gasPrice = ethers.utils.parseUnits('30', 'gwei');
+      }
+      
+      const tx = await contract.withdrawStakes(account, {
+        gasLimit: 200000,
+        gasPrice: gasPrice
+      });
       await tx.wait();
-      log('✅ Tokens succesfully move to onwer address.');
+      log('✅ Tokens successfully moved to owner address.');
     } catch (error: any) {
       log(`❗ Error of tokens moving: ${error.message}`);
     }

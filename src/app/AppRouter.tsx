@@ -6,6 +6,7 @@ import { WagmiProvider, QueryClientProvider, queryClient, config } from '@/confi
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { useEffect } from 'react';
 import { useMiniPay } from '@/shared/useMiniPay';
+import '@/shared/miniPayDebug'; // Load MiniPay debug tools
 
 const HomePage = () => {
   const { address, isConnected } = useAccount();

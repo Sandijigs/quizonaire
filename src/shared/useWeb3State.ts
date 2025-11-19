@@ -9,12 +9,12 @@ declare global {
   }
 }
 
-const CHAIN_ID_HEX = '0xAA0CA4'; // 11142220 in decimal (Celo Sepolia Testnet)
+const CHAIN_ID_HEX = '0xAA044C'; // 11142220 in decimal (Celo Sepolia Testnet) - CORRECTED HEX VALUE
 const CELO_PARAMS = {
   chainId: CHAIN_ID_HEX,
   chainName: 'Celo Sepolia Testnet',
   nativeCurrency: { name: 'CELO', symbol: 'CELO', decimals: 18 },
-  rpcUrls: ['https://rpc.ankr.com/celo_sepolia'],
+  rpcUrls: ['https://rpc.ankr.com/celo_sepolia', 'https://forno.celo-sepolia.celo-testnet.org'],
   blockExplorerUrls: ['https://celo-sepolia.blockscout.com'],
 };
 
@@ -123,7 +123,10 @@ export const useWeb3State = (contractAddress: string, abi: any) => {
       log(`✅ Wallet access granted for: ${addr}`);
 
       await ensureCorrectChain();
-
+      
+      // Force provider to refresh after network switch
+      await provider.send("eth_chainId", []);
+      
       const sig = provider.getSigner();
       const c = new ethers.Contract(contractAddress, abi, sig);
 
